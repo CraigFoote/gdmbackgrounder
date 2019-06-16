@@ -71,9 +71,7 @@ public class CSSWritingListener extends SelectionAdapter {
 		try {
 			File backup = new File("/home/" + System.getProperty("user.name") + "/" + path.getFileName() + ".bak");
 			boolean deleted = false;
-			if (backup.exists()) {
-				deleted = backup.delete();
-			}
+			deleted = Files.deleteIfExists(backup.toPath());
 			if (!deleted) {
 				new ErrorDialog(shell, "Error deleting previous backup file.").open();
 				throw new IllegalStateException("Error deleting previous backup file.");
