@@ -273,6 +273,7 @@ public class CSSWritingListener extends SelectionAdapter {
 		try {
 			makeWritable(user, owner, cssFile);
 		} catch (InterruptedException e1) {
+			Thread.currentThread().interrupt();
 			throw new IllegalStateException(e1);
 		}
 		CSSStyleSheetImpl stylesheet = getStylesheet(cssFile);
