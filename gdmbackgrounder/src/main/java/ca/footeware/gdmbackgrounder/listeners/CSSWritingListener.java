@@ -47,7 +47,7 @@ public class CSSWritingListener extends SelectionAdapter {
 	private final Button button;
 	private final Shell shell;
 	private final Text text;
-	private static final String ERROR_MSG = "An error occurred: "; 
+	private static final String ERROR_MSG = "An error occurred: ";
 
 	/**
 	 * Constructor.
@@ -70,8 +70,13 @@ public class CSSWritingListener extends SelectionAdapter {
 	private void backupFile(Path path) {
 		try {
 			File backup = new File("/home/" + System.getProperty("user.name") + "/" + path.getFileName() + ".bak");
+			boolean deleted = false;
 			if (backup.exists()) {
-				backup.delete();
+				deleted = backup.delete();
+			}
+			if (!deleted) {
+				new ErrorDialog(shell, "Error deleting previous backup file.").open();
+				throw new IllegalStateException("Error deleting previous backup file.");
 			}
 			Files.copy(path, Paths.get(backup.toURI()), StandardCopyOption.COPY_ATTRIBUTES);
 		} catch (IOException e3) {
