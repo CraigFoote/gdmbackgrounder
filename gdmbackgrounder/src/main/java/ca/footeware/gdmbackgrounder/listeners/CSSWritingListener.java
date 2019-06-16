@@ -35,7 +35,6 @@ import com.steadystate.css.parser.SACParserCSS3;
 
 import ca.footeware.gdmbackgrounder.Application;
 import ca.footeware.gdmbackgrounder.dialogs.ErrorDialog;
-import ca.footeware.gdmbackgrounder.exceptions.CSSModificationException;
 
 /**
  * Responds to clicking of Set Image button by writing the selected image path
@@ -184,9 +183,9 @@ public class CSSWritingListener extends SelectionAdapter {
 	 * @param owner        {@link UserPrincipal}
 	 * @param file         {@link File}
 	 * @param fileLocation {@link String}
-	 * @throws CSSModificationException when shit goes south
+	 * @throws InterruptedException when shit goes south
 	 */
-	private void makeWritable(UserPrincipal user, UserPrincipal owner, File file) throws CSSModificationException {
+	private void makeWritable(UserPrincipal user, UserPrincipal owner, File file) throws InterruptedException {
 		try {
 			if (!file.exists()) {
 				new ErrorDialog(shell, "CSS file missing. Expected at " + file.getAbsolutePath()).open();
@@ -211,9 +210,12 @@ public class CSSWritingListener extends SelectionAdapter {
 					throw new IllegalStateException("Chown of file did not work.");
 				}
 			}
-		} catch (IOException | InterruptedException e2) {
+		} catch (IOException e2) {
 			new ErrorDialog(shell, "An error occurred: " + e2.getMessage()).open();
-			throw new CSSModificationException(e2);
+			throw new IllegalStateException(e2);
+		} catch (InterruptedException e2) {
+			new ErrorDialog(shell, "An error occurred: " + e2.getMessage()).open();
+			throw e2;
 		}
 
 		if (!file.canWrite()) {
@@ -270,7 +272,7 @@ public class CSSWritingListener extends SelectionAdapter {
 		UserPrincipal user = getUser();
 		try {
 			makeWritable(user, owner, cssFile);
-		} catch (CSSModificationException e1) {
+		} catch (InterruptedException e1) {
 			throw new IllegalStateException(e1);
 		}
 		CSSStyleSheetImpl stylesheet = getStylesheet(cssFile);
