@@ -183,8 +183,9 @@ public class CSSWritingListener extends SelectionAdapter {
 	 * @param owner        {@link UserPrincipal}
 	 * @param file         {@link File}
 	 * @param fileLocation {@link String}
+	 * @throws Exception when shit goes south
 	 */
-	private void makeWritable(UserPrincipal user, UserPrincipal owner, File file) {
+	private void makeWritable(UserPrincipal user, UserPrincipal owner, File file) throws Exception {
 		try {
 			if (!file.exists()) {
 				new ErrorDialog(shell, "CSS file missing. Expected at " + file.getAbsolutePath()).open();
@@ -211,7 +212,7 @@ public class CSSWritingListener extends SelectionAdapter {
 			}
 		} catch (IOException | InterruptedException e2) {
 			new ErrorDialog(shell, "An error occurred: " + e2.getMessage()).open();
-			throw new IllegalStateException("An error occurred.", e2);
+			throw e2;
 		}
 
 		if (!file.canWrite()) {
@@ -266,7 +267,11 @@ public class CSSWritingListener extends SelectionAdapter {
 		backupFile(cssFile.toPath());
 		UserPrincipal owner = getOwner(cssFile.toPath());
 		UserPrincipal user = getUser();
-		makeWritable(user, owner, cssFile);
+		try {
+			makeWritable(user, owner, cssFile);
+		} catch (Exception e1) {
+			throw new IllegalStateException(e1);
+		}
 		CSSStyleSheetImpl stylesheet = getStylesheet(cssFile);
 		CSSRule rule = getRule(cssFile, stylesheet);
 		setCSSRule(cssFile, rule, stylesheet);
