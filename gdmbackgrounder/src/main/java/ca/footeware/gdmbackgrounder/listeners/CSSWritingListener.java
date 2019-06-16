@@ -47,6 +47,7 @@ public class CSSWritingListener extends SelectionAdapter {
 	private final Button button;
 	private final Shell shell;
 	private final Text text;
+	private static final String ERROR_MSG = "An error occurred: "; 
 
 	/**
 	 * Constructor.
@@ -90,7 +91,7 @@ public class CSSWritingListener extends SelectionAdapter {
 		try {
 			process = Runtime.getRuntime().exec("cat " + file.getAbsolutePath());
 		} catch (IOException e1) {
-			new ErrorDialog(shell, "An error occurred: " + e1.getMessage()).open();
+			new ErrorDialog(shell, ERROR_MSG + e1.getMessage()).open();
 			throw new IllegalStateException("Error occurred reading CSS file at " + file.getAbsolutePath(), e1);
 		}
 
@@ -211,10 +212,10 @@ public class CSSWritingListener extends SelectionAdapter {
 				}
 			}
 		} catch (IOException e2) {
-			new ErrorDialog(shell, "An error occurred: " + e2.getMessage()).open();
+			new ErrorDialog(shell, ERROR_MSG + e2.getMessage()).open();
 			throw new IllegalStateException(e2);
 		} catch (InterruptedException e2) {
-			new ErrorDialog(shell, "An error occurred: " + e2.getMessage()).open();
+			new ErrorDialog(shell, ERROR_MSG + e2.getMessage()).open();
 			throw e2;
 		}
 
