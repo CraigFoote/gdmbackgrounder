@@ -3,8 +3,6 @@ package ca.footeware.gdmbackgrounder.listeners;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.SWTException;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -71,12 +69,9 @@ public class BrowseButtonListener extends SelectionAdapter {
 			try {
 				image = new Image(display, filepath);
 				canvas.pack(false);
-				canvas.addPaintListener(new PaintListener() {
-					@Override
-					public void paintControl(PaintEvent e) {
-						canvas.setSize(image.getImageData().width, image.getImageData().height);
-						e.gc.drawImage(image, 0, 0);
-					}
+				canvas.addPaintListener(e1 -> {
+					canvas.setSize(image.getImageData().width, image.getImageData().height);
+					e1.gc.drawImage(image, 0, 0);
 				});
 				text.setText(filepath);
 				button.setEnabled(true);

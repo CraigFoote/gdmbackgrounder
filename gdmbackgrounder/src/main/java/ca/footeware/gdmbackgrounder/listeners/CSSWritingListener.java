@@ -8,7 +8,6 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -33,7 +32,6 @@ import com.steadystate.css.format.CSSFormat;
 import com.steadystate.css.parser.CSSOMParser;
 import com.steadystate.css.parser.SACParserCSS3;
 
-import ca.footeware.gdmbackgrounder.Application;
 import ca.footeware.gdmbackgrounder.dialogs.ErrorDialog;
 
 /**
@@ -69,12 +67,15 @@ public class CSSWritingListener extends SelectionAdapter {
 	 */
 	private void backupFile(Path path) {
 		try {
-			File backup = new File("/home/" + System.getProperty("user.name") + "/" + path.getFileName() + ".bak");
-			boolean deleted = false;
-			deleted = Files.deleteIfExists(backup.toPath());
-			if (!deleted) {
-				new ErrorDialog(shell, "Error deleting previous backup file.").open();
-				throw new IllegalStateException("Error deleting previous backup file.");
+			File backup = new File(
+					"/home/" + System.getProperty("user.name") + File.separator + path.getFileName() + ".bak");
+			if (backup.exists()) {
+				boolean deleted = false;
+				deleted = Files.deleteIfExists(backup.toPath());
+				if (!deleted) {
+					new ErrorDialog(shell, "Error deleting previous backup file.").open();
+					throw new IllegalStateException("Error deleting previous backup file.");
+				}
 			}
 			Files.copy(path, Paths.get(backup.toURI()), StandardCopyOption.COPY_ATTRIBUTES);
 		} catch (IOException e3) {
@@ -116,7 +117,7 @@ public class CSSWritingListener extends SelectionAdapter {
 	 */
 	private UserPrincipal getOwner(Path path) {
 		try {
-			return Files.getOwner(path, new LinkOption[] {});
+			return Files.getOwner(path);
 		} catch (IOException e3) {
 			new ErrorDialog(shell, "Unable to get file owner").open();
 			throw new IllegalStateException("Unable to get file owner.", e3);
@@ -126,10 +127,11 @@ public class CSSWritingListener extends SelectionAdapter {
 	/**
 	 * Get the CSS rule governing GDM background.
 	 * 
-	 * @param file {@link File}
+	 * @param stylesheet {@link CSSStyleSheetImpl}.
+	 * 
 	 * @return {@link CSSRule}
 	 */
-	private CSSRule getRule(File file, CSSStyleSheetImpl stylesheet) {
+	private CSSRule getRule(CSSStyleSheetImpl stylesheet) {
 		CSSRuleList cssRules = stylesheet.getCssRules();
 		CSSRule rule = null;
 		for (int i = 0; i < cssRules.getLength(); i++) {
@@ -240,9 +242,9 @@ public class CSSWritingListener extends SelectionAdapter {
 				+ "); background-repeat: no-repeat; background-size: contain; background-position: center}");
 		CSSFormat format = new CSSFormat();
 		format.setRgbAsHex(true);
-		List<String> asList = Arrays.asList(new String[] { stylesheet.getCssText(format) });
+		List<String> formatList = Arrays.asList(stylesheet.getCssText(format));
 		try {
-			Files.write(file.toPath(), asList, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+			Files.write(file.toPath(), formatList, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
 		} catch (IOException ioe) {
 			new ErrorDialog(shell,
 					"An error occurred writing the CSS file at " + file.getAbsolutePath() + ": " + ioe.getMessage())
@@ -270,7 +272,7 @@ public class CSSWritingListener extends SelectionAdapter {
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		super.widgetSelected(e);
-		File cssFile = new File(Application.CSS_FILENAME);
+		File cssFile = new File(text.getText().trim());
 		backupFile(cssFile.toPath());
 		UserPrincipal owner = getOwner(cssFile.toPath());
 		UserPrincipal user = getUser();
@@ -281,7 +283,7 @@ public class CSSWritingListener extends SelectionAdapter {
 			throw new IllegalStateException(e1);
 		}
 		CSSStyleSheetImpl stylesheet = getStylesheet(cssFile);
-		CSSRule rule = getRule(cssFile, stylesheet);
+		CSSRule rule = getRule(stylesheet);
 		setCSSRule(cssFile, rule, stylesheet);
 		setOwner(cssFile, owner);
 		button.setEnabled(false);

@@ -32,20 +32,6 @@ import ca.footeware.gdmbackgrounder.listeners.ImageDisposingShellListener;
  */
 public class Application {
 
-	/**
-	 * The CSS file to be modified.
-	 */
-	public static final String CSS_FILENAME = "/usr/share/gnome-shell/theme/gdm3.css";
-
-	/**
-	 * Application entry point.
-	 * 
-	 * @param args {@link String} array
-	 */
-	public static void main(String[] args) {
-		new Application();
-	}
-
 	private Canvas canvas;
 	private Image icon;
 	private Image image;
@@ -53,8 +39,10 @@ public class Application {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param cssFilename {@link String} location of CSS file to be modified.
 	 */
-	public Application() {
+	public Application(String cssFilename) {
 		// shell
 		final Display display = new Display();
 		final Shell shell = new Shell(display);
@@ -68,7 +56,7 @@ public class Application {
 		// description
 		Label label = new Label(shell, SWT.WRAP);
 		label.setText("Browse to an image to set it as the background in your GDM login display. A backup copy of "
-				+ Application.CSS_FILENAME + " will be made in your home folder.");
+				+ cssFilename + " will be made in your home folder.");
 		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 3, 0));
 
 		// text box
