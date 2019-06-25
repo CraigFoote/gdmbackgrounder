@@ -41,7 +41,7 @@ import ca.footeware.gdmbackgrounder.dialogs.ErrorDialog;
  * @author Footeware.ca
  *
  */
-public class CSSWritingListener extends SelectionAdapter {
+public class LoginBackgroundWriter extends SelectionAdapter implements WriterDelegate {
 	private final Button button;
 	private final Shell shell;
 	private final Text text;
@@ -54,7 +54,7 @@ public class CSSWritingListener extends SelectionAdapter {
 	 * @param text   {@link Text}
 	 * @param button {@link Button}
 	 */
-	public CSSWritingListener(Shell shell, Text text, Button button) {
+	public LoginBackgroundWriter(Shell shell, Text text, Button button) {
 		this.shell = shell;
 		this.text = text;
 		this.button = button;
