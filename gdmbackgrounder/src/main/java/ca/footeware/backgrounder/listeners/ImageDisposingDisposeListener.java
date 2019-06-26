@@ -1,4 +1,4 @@
-package ca.footeware.gdmbackgrounder.listeners;
+package ca.footeware.backgrounder.listeners;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
  * @author Footeware.ca
  *
  */
-public class ImageDisposingShellListener implements DisposeListener {
+public class ImageDisposingDisposeListener implements DisposeListener {
 
 	private List<Image> images;
 
@@ -21,7 +21,7 @@ public class ImageDisposingShellListener implements DisposeListener {
 	 * 
 	 * @param imagesToDispose {@link List} of {@link Image} array
 	 */
-	public ImageDisposingShellListener(List<Image> imagesToDispose) {
+	public ImageDisposingDisposeListener(List<Image> imagesToDispose) {
 		this.images = imagesToDispose;
 	}
 

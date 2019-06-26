@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.footeware.gdmbackgrounder;
+package ca.footeware.backgrounder;
 
 /**
  * Entry point.
@@ -17,7 +17,7 @@ public class Main {
 	 * @param args {@link String} array
 	 */
 	public static void main(String[] args) {
-		new Application("/usr/share/gnome-shell/theme/gdm3.css");
+		new Application();
 	}
 
 }

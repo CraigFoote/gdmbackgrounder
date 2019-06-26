@@ -1,4 +1,4 @@
-package ca.footeware.gdmbackgrounder.dialogs;
+package ca.footeware.backgrounder.dialogs;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.m2e.Maven2LaunchConfigurationType">
     <booleanAttribute key="M2_DEBUG_OUTPUT" value="false"/>
-    <stringAttribute key="M2_GOALS" value="clean install"/>
+    <stringAttribute key="M2_GOALS" value="clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"/>
     <booleanAttribute key="M2_NON_RECURSIVE" value="false"/>
     <booleanAttribute key="M2_OFFLINE" value="false"/>
     <stringAttribute key="M2_PROFILES" value=""/>
-    <listAttribute key="M2_PROPERTIES"/>
+    <listAttribute key="M2_PROPERTIES">
+        <listEntry value="sonar.organization=craigfoote-github"/>
+        <listEntry value="sonar.host.url=https://sonarcloud.io"/>
+        <listEntry value="sonar.login=793e7b8a652c8c05c499446b6b7fae8301ed76c7"/>
+        <listEntry value="sonar.junit.reportPaths=target/surefire-reports"/>
+        <listEntry value="sonar.projectKey=CraigFoote_gdmbackgrounder"/>
+    </listAttribute>
     <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
     <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
     <intAttribute key="M2_THREADS" value="1"/>
     <booleanAttribute key="M2_UPDATE_SNAPSHOTS" value="false"/>
     <stringAttribute key="M2_USER_SETTINGS" value=""/>
     <booleanAttribute key="M2_WORKSPACE_RESOLUTION" value="false"/>
+    <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+        <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+    </listAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
-    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${project_loc:gdmbackgrounder}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/backgrounder}"/>
 </launchConfiguration>
