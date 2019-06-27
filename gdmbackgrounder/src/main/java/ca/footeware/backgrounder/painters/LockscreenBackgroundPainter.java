@@ -15,14 +15,17 @@ import java.nio.file.Path;
 public class LockscreenBackgroundPainter {
 
 	private Path path;
+	private String option;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param path {@link Path}
+	 * @param option {@link String}
 	 */
-	public LockscreenBackgroundPainter(Path path) {
+	public LockscreenBackgroundPainter(Path path, String option) {
 		this.path = path;
+		this.option = option;
 	}
 
 	/**
@@ -36,6 +39,11 @@ public class LockscreenBackgroundPainter {
 		String cmd = "gsettings set org.gnome.desktop.screensaver picture-uri 'file://" + path + "'";
 		Runtime run = Runtime.getRuntime();
 		Process pr = run.exec(cmd);
+		pr.waitFor();
+		
+		cmd = "gsettings set org.gnome.desktop.background picture-options '" + option + "'";
+		run = Runtime.getRuntime();
+		pr = run.exec(cmd);
 		pr.waitFor();
 	}
 

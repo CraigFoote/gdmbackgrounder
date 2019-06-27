@@ -15,14 +15,17 @@ import java.nio.file.Path;
 public class WallpaperPainter {
 
 	private Path path;
+	private String option;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param path {@link Path}
+	 * @param path   {@link Path}
+	 * @param option {@link String}
 	 */
-	public WallpaperPainter(Path path) {
+	public WallpaperPainter(Path path, String option) {
 		this.path = path;
+		this.option = option;
 	}
 
 	/**
@@ -32,10 +35,15 @@ public class WallpaperPainter {
 	 * @throws InterruptedException when more shit goes south
 	 * 
 	 */
-	public void paint() throws IOException, InterruptedException {
+	public void paint() throws InterruptedException, IOException {
 		String cmd = "gsettings set org.gnome.desktop.background picture-uri 'file://" + path + "'";
 		Runtime run = Runtime.getRuntime();
 		Process pr = run.exec(cmd);
+		pr.waitFor();
+
+		cmd = "gsettings set org.gnome.desktop.background picture-options '" + option + "'";
+		run = Runtime.getRuntime();
+		pr = run.exec(cmd);
 		pr.waitFor();
 	}
 
