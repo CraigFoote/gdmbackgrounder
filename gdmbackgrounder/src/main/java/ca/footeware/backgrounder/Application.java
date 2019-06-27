@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -80,15 +78,7 @@ public class Application {
 		text = new Text(shell, SWT.SEARCH);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 0, 0));
 		text.setEditable(false);
-		text.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				boolean haveText = text.getText().length() > 0;
-				if (haveText) {
-					enableButtons(true);
-				}
-			}
-		});
+		text.addModifyListener(e -> enableButtons(text.getText().length() > 0));
 
 		// browse button
 		Button browseButton = new Button(shell, SWT.PUSH);
