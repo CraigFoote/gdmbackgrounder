@@ -31,8 +31,9 @@ import ca.footeware.backgrounder.painters.LoginBackgroundPainter;
 import ca.footeware.backgrounder.painters.WallpaperPainter;
 
 /**
- * Provides a GUI to select an image file and set it as the Gnome Display
- * Manager (GDM) login screen background.
+ * Provides a GUI to select an image file and set it as your desktop wallpaper,
+ * Gnome Display Manager (GDM) login screen background, and lock screen
+ * background.
  * 
  * @author Footeware.ca
  *
@@ -43,10 +44,10 @@ public class Application {
 	private List<Image> imagesToDispose;
 	private Shell shell;
 	private Text text;
-	private static final String IMAGE_ICON = "icons8-image-24.png";
-	private Button setDesktopWallpaperBtn;
-	private Button setLockScreenBackgroundBtn;
-	private Button setLoginScreenBackgroundBtn;
+	private static final String IMAGE_ICON = "image-24.png";
+	private Button desktopWallpaper;
+	private Button lockScreenBackground;
+	private Button loginScreenBackground;
 	private static final String[] PICTURE_OPTIONS = new String[] { "none", "wallpaper", "centered", "scaled",
 			"stretched", "zoom", "spanned" };
 
@@ -71,7 +72,7 @@ public class Application {
 		// description
 		Label label = new Label(shell, SWT.WRAP);
 		label.setText(
-				"Browse to an image and set it as your desktop wallpaper, login background, and lock screen background.");
+				"Browse to an image and set it as your desktop wallpaper, lock screen background and login screen background.");
 		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 3, 0));
 
 		// text box
@@ -82,7 +83,7 @@ public class Application {
 
 		// browse button
 		Button browseButton = new Button(shell, SWT.PUSH);
-		browseButton.setImage(getImage("icons8-search-folder-24.png"));
+		browseButton.setImage(getImage("search-folder-24.png"));
 		browseButton.setText("Browse");
 
 		// scroll
@@ -114,9 +115,9 @@ public class Application {
 	 * @param b
 	 */
 	protected void enableButtons(boolean b) {
-		setDesktopWallpaperBtn.setEnabled(b);
-		setLockScreenBackgroundBtn.setEnabled(b);
-		setLoginScreenBackgroundBtn.setEnabled(b);
+		desktopWallpaper.setEnabled(b);
+		lockScreenBackground.setEnabled(b);
+		loginScreenBackground.setEnabled(b);
 	}
 
 	/**
@@ -130,7 +131,7 @@ public class Application {
 		Button closeBtn = new Button(shell, SWT.PUSH | SWT.WRAP);
 		closeBtn.setText("&Close");
 		closeBtn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		closeBtn.setImage(getImage("icons8-close-window-24.png"));
+		closeBtn.setImage(getImage("close-window-24.png"));
 		closeBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -152,11 +153,11 @@ public class Application {
 		loginscreenCombo.setText("cover");
 		loginscreenCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
-		setLoginScreenBackgroundBtn = new Button(group, SWT.PUSH | SWT.WRAP);
-		setLoginScreenBackgroundBtn.setText("Set login screen background");
-		setLoginScreenBackgroundBtn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		setLoginScreenBackgroundBtn.setImage(getImage(IMAGE_ICON));
-		setLoginScreenBackgroundBtn.addSelectionListener(new SelectionAdapter() {
+		loginScreenBackground = new Button(group, SWT.PUSH | SWT.WRAP);
+		loginScreenBackground.setText("Set login screen background");
+		loginScreenBackground.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		loginScreenBackground.setImage(getImage(IMAGE_ICON));
+		loginScreenBackground.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Path cssPath = FileSystems.getDefault().getPath("/usr/share/gnome-shell/theme/gdm3.css");
@@ -165,7 +166,7 @@ public class Application {
 				painter.paint();
 			}
 		});
-		setLoginScreenBackgroundBtn.setEnabled(false);
+		loginScreenBackground.setEnabled(false);
 	}
 
 	/**
@@ -181,11 +182,11 @@ public class Application {
 		lockscreenCombo.setText("zoom");
 		lockscreenCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
-		setLockScreenBackgroundBtn = new Button(group, SWT.PUSH | SWT.WRAP);
-		setLockScreenBackgroundBtn.setText("Set lock screen background");
-		setLockScreenBackgroundBtn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		setLockScreenBackgroundBtn.setImage(getImage(IMAGE_ICON));
-		setLockScreenBackgroundBtn.addSelectionListener(new SelectionAdapter() {
+		lockScreenBackground = new Button(group, SWT.PUSH | SWT.WRAP);
+		lockScreenBackground.setText("Set lock screen background");
+		lockScreenBackground.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		lockScreenBackground.setImage(getImage(IMAGE_ICON));
+		lockScreenBackground.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Path path = FileSystems.getDefault().getPath(text.getText().trim());
@@ -199,7 +200,7 @@ public class Application {
 				}
 			}
 		});
-		setLockScreenBackgroundBtn.setEnabled(false);
+		lockScreenBackground.setEnabled(false);
 	}
 
 	/**
@@ -215,11 +216,11 @@ public class Application {
 		wallpaperCombo.setText("zoom");
 		wallpaperCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
-		setDesktopWallpaperBtn = new Button(group, SWT.PUSH | SWT.WRAP);
-		setDesktopWallpaperBtn.setText("Set desktop wallpaper");
-		setDesktopWallpaperBtn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		setDesktopWallpaperBtn.setImage(getImage(IMAGE_ICON));
-		setDesktopWallpaperBtn.addSelectionListener(new SelectionAdapter() {
+		desktopWallpaper = new Button(group, SWT.PUSH | SWT.WRAP);
+		desktopWallpaper.setText("Set desktop wallpaper");
+		desktopWallpaper.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		desktopWallpaper.setImage(getImage(IMAGE_ICON));
+		desktopWallpaper.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Path path = FileSystems.getDefault().getPath(text.getText().trim());
@@ -232,7 +233,7 @@ public class Application {
 				}
 			}
 		});
-		setDesktopWallpaperBtn.setEnabled(false);
+		desktopWallpaper.setEnabled(false);
 	}
 
 	/**

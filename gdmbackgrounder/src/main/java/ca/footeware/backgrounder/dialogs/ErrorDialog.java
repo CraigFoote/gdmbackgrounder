@@ -49,7 +49,7 @@ public class ErrorDialog {
 	}
 
 	/**
-	 * Closes the dialog.
+	 * Opens the dialog.
 	 */
 	public void open() {
 		dialog.open();
