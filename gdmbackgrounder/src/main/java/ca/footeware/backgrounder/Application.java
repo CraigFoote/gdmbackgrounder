@@ -162,7 +162,7 @@ public class Application {
 			public void widgetSelected(SelectionEvent e) {
 				Path cssPath = FileSystems.getDefault().getPath("/usr/share/gnome-shell/theme/gdm3.css");
 				Path imagePath = FileSystems.getDefault().getPath(text.getText().trim());
-				LoginBackgroundPainter painter = new LoginBackgroundPainter(cssPath, imagePath);
+				LoginBackgroundPainter painter = new LoginBackgroundPainter(cssPath, imagePath, loginscreenCombo.getText());
 				painter.paint();
 			}
 		});

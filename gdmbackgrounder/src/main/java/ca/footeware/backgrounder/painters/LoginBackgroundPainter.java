@@ -37,16 +37,19 @@ import com.steadystate.css.parser.SACParserCSS3;
 public class LoginBackgroundPainter {
 	private Path cssPath;
 	private Path imagePath;
+	private String option;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param cssPath   {@link Path}
 	 * @param imagePath {@link Path}
+	 * @param option    {@link String}
 	 */
-	public LoginBackgroundPainter(Path cssPath, Path imagePath) {
+	public LoginBackgroundPainter(Path cssPath, Path imagePath, String option) {
 		this.cssPath = cssPath;
 		this.imagePath = imagePath;
+		this.option = option;
 	}
 
 	/**
@@ -228,7 +231,7 @@ public class LoginBackgroundPainter {
 	 */
 	private void setCSSRule(File file, CSSRule rule, CSSStyleSheetImpl stylesheet) {
 		String css = "#lockDialogGroup {background: url('file://" + imagePath
-				+ "'); background-repeat: no-repeat; background-size: contain; background-position: center}";
+				+ "'); background-repeat: no-repeat; background-size: " + option + "; background-position: center}";
 		rule.setCssText(css);
 		CSSFormat format = new CSSFormat();
 		format.setRgbAsHex(true);
